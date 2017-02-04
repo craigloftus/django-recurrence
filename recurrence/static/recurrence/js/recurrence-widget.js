@@ -581,7 +581,9 @@ recurrence.widget.Widget.prototype = {
     },
 
     update: function() {
+        var e = new Event('input', {"bubbles": true, "cancelable": true});
         this.textarea.value = this.data.serialize();
+        this.textarea.dispatchEvent(e);
     }
 };
 
