@@ -1164,7 +1164,7 @@ recurrence.widget.RuleYearlyForm.prototype = {
 
         var root = recurrence.widget.e(
             'div', {'class': 'yearly'},
-            [year, byday_container, weekday_position_container]);
+            [year, byday_container]);
         recurrence.widget.add_class(root, 'hidden');
 
         if (this.rule.byday.length) {
