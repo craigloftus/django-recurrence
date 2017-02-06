@@ -308,27 +308,15 @@ recurrence.widget.DateSelector.prototype = {
         var date_field = recurrence.widget.e(
             'input', {
                 'class': 'date-field', 'size': 10,
-                'value': date_value,
+                'value': date_value, 'type': 'date',
                 'onchange': function() {dateselector.set_date(this.value);}});
-        var calendar_button = recurrence.widget.e(
-            'a', {
-                'class': 'calendar-button',
-                'href': 'javascript:void(0)',
-                'title': recurrence.display.labels.calendar,
-                'onclick': function() {
-                    if (!dateselector.disabled)
-                        dateselector.show_calendar();
-                }
-            },
-            '&nbsp;&nbsp;&nbsp;&nbsp;');
         var root = recurrence.widget.e(
             'span', {'class': 'date-selector'},
-            [date_field, calendar_button]);
+            [date_field]);
 
         this.elements = {
             'root': root,
             'date_field': date_field,
-            'calendar_button': calendar_button
         };
     },
 
