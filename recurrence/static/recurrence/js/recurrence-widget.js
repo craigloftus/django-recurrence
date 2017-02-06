@@ -1131,20 +1131,6 @@ recurrence.widget.RuleYearlyForm.prototype = {
             }
         }
 
-        // by weekday checkbox
-
-        var byday_checkbox = recurrence.widget.e(
-            'input', {
-                'class': 'checkbox', 'type': 'checkbox',
-                'name': 'byday'});
-        var byday_label = recurrence.widget.e(
-            'span', {'class': 'recurrence-label'},
-            recurrence.string.capitalize(
-                recurrence.display.labels.on_the) + ':');
-        var byday_container = recurrence.widget.e(
-            'div', {'class': 'byday'},
-            [byday_checkbox, byday_label]);
-
         // weekday-position
 
         var position_options = recurrence.array.foreach(
@@ -1168,6 +1154,20 @@ recurrence.widget.RuleYearlyForm.prototype = {
         var weekday_position_container = recurrence.widget.e(
             'div', {'class': 'section'}, [position_select, weekday_select]);
 
+        // by weekday checkbox
+
+        var byday_checkbox = recurrence.widget.e(
+            'input', {
+                'class': 'checkbox', 'type': 'checkbox',
+                'name': 'byday'});
+        var byday_label = recurrence.widget.e(
+            'span', {'class': 'recurrence-label'},
+            recurrence.string.capitalize(
+                recurrence.display.labels.on_the) + ':');
+        var byday_container = recurrence.widget.e(
+            'div', {'class': 'byday'},
+            [byday_checkbox, byday_label, weekday_position_container]);
+
         // core
 
         var year = recurrence.widget.e('div');
@@ -1175,7 +1175,7 @@ recurrence.widget.RuleYearlyForm.prototype = {
 
         var root = recurrence.widget.e(
             'div', {'class': 'yearly'},
-            [year, byday_container, weekday_position_container]);
+            [year, byday_container]);
         root.style.display = 'none';
 
         if (this.rule.byday.length) {
