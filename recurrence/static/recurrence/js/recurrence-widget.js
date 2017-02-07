@@ -482,7 +482,7 @@ recurrence.widget.Widget.prototype = {
     init_panels: function() {
         recurrence.array.foreach(
             this.data.rrules, function(item) {
-                this.add_rule_panel(recurrence.widget.INCLUSION, item);
+                this.add_rule_panel(recurrence.widget.INCLUSION, item).expand();
             }, this);
         recurrence.array.foreach(
             this.data.exrules, function(item) {
@@ -613,26 +613,19 @@ recurrence.widget.Panel.prototype = {
     init_dom: function() {
         var panel = this;
 
-        var label = recurrence.widget.e('a', {
+        var label = recurrence.widget.e('strong', {
            'class': 'recurrence-label',
-           'href': 'javascript:void(0)',
-           'onclick': function() {
-               if (panel.collapsed)
-                   panel.expand();
-               else
-                   panel.collapse();
-           }
         }, '&nbsp;');
-        var header = recurrence.widget.e(
+        var footer = recurrence.widget.e(
              'div', {'class': 'header'}, [label]);
         var body = recurrence.widget.e(
             'div', {'class': 'body'});
         var root = recurrence.widget.e(
-            'div', {'class': 'panel'}, [header, body]);
+            'div', {'class': 'panel'}, [body, footer]);
 
         this.elements = {
             'root': root, 'label': label,
-            'header': header, 'body': body
+            'header': footer, 'body': body
         };
 
         this.collapse();
@@ -694,23 +687,6 @@ recurrence.widget.RuleForm.prototype = {
 
     init_dom: function() {
         var form = this;
-
-        // mode
-
-        var mode_checkbox = recurrence.widget.e(
-            'input', {'class': 'checkbox', 'type': 'checkbox', 'name': 'mode'});
-        var mode_label = recurrence.widget.e(
-            'span', {'class': 'recurrence-label'},
-            recurrence.display.labels.exclude_occurrences);
-        var mode_container = recurrence.widget.e(
-            'div', {'class': 'mode'},
-            [mode_checkbox, mode_label]);
-        if (this.mode == recurrence.widget.EXCLUSION)
-            // delay for ie6 compatibility
-            setTimeout(function() {
-                mode_checkbox.checked = true;
-                recurrence.widget.add_class(form.panel, 'exclusion');
-            }, 10);
 
         // freq
 
@@ -824,17 +800,10 @@ recurrence.widget.RuleForm.prototype = {
             'div', {'class': 'form'});
         var root = recurrence.widget.e(
             'form', {}, [
-                mode_container, freq_container, interval_container,
+                freq_container, interval_container,
                 freq_form_container, limit_container]);
 
         // events
-
-        mode_checkbox.onclick = function() {
-            if (this.checked)
-                form.set_mode(recurrence.widget.EXCLUSION);
-            else
-                form.set_mode(recurrence.widget.INCLUSION);
-        };
 
         freq_select.onchange = function() {
             form.set_freq(parseInt(this.value), 10);
@@ -930,7 +899,6 @@ recurrence.widget.RuleForm.prototype = {
 
         this.elements = {
             'root': root,
-            'mode_checkbox': mode_checkbox,
             'freq_select': freq_select,
             'interval_field': interval_field,
             'freq_form_container': freq_form_container,
@@ -1732,7 +1700,7 @@ recurrence.display.mode = {
 };
 
 recurrence.display.labels = {
-    'frequency': gettext('Frequency'),
+    'frequency': gettext('Repeat'),
     'on_the': gettext('On the'),
     'each': gettext('Each'),
     'every': gettext('Every'),
