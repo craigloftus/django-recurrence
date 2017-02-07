@@ -480,10 +480,6 @@ recurrence.widget.Widget.prototype = {
     },
 
     init_panels: function() {
-        if(this.data.rrules.length === 0) {
-            this.add_rule();
-        }
-
         recurrence.array.foreach(
             this.data.rrules, function(item) {
                 this.add_rule_panel(recurrence.widget.INCLUSION, item);
@@ -500,6 +496,10 @@ recurrence.widget.Widget.prototype = {
             this.data.exdates, function(item) {
                 this.add_date_panel(recurrence.widget.EXCLUSION, item);
             }, this);
+
+        if(this.data.rrules.length === 0) {
+            this.add_rule();
+        }
     },
 
     add_rule_panel: function(mode, rule) {
