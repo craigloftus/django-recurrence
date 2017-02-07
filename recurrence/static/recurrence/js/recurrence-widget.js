@@ -495,7 +495,7 @@ recurrence.widget.Widget.prototype = {
     init_panels: function() {
         recurrence.array.foreach(
             this.data.rrules, function(item) {
-                this.add_rule_panel(recurrence.widget.INCLUSION, item);
+                this.add_rule_panel(recurrence.widget.INCLUSION, item).expand();
             }, this);
         recurrence.array.foreach(
             this.data.exrules, function(item) {
