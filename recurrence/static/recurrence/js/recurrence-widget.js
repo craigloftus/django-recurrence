@@ -706,23 +706,6 @@ recurrence.widget.RuleForm.prototype = {
     init_dom: function() {
         var form = this;
 
-        // mode
-
-        var mode_checkbox = recurrence.widget.e(
-            'input', {'class': 'checkbox', 'type': 'checkbox', 'name': 'mode'});
-        var mode_label = recurrence.widget.e(
-            'span', {'class': 'recurrence-label'},
-            recurrence.display.labels.exclude_occurrences);
-        var mode_container = recurrence.widget.e(
-            'div', {'class': 'mode'},
-            [mode_checkbox, mode_label]);
-        if (this.mode == recurrence.widget.EXCLUSION)
-            // delay for ie6 compatibility
-            setTimeout(function() {
-                mode_checkbox.checked = true;
-                recurrence.widget.add_class(form.panel, 'exclusion');
-            }, 10);
-
         // freq
 
         var freq_choices = recurrence.display.frequencies.slice(0, 4);
@@ -835,17 +818,10 @@ recurrence.widget.RuleForm.prototype = {
             'div', {'class': 'form'});
         var root = recurrence.widget.e(
             'form', {}, [
-                mode_container, freq_container, interval_container,
+                freq_container, interval_container,
                 freq_form_container, limit_container]);
 
         // events
-
-        mode_checkbox.onclick = function() {
-            if (this.checked)
-                form.set_mode(recurrence.widget.EXCLUSION);
-            else
-                form.set_mode(recurrence.widget.INCLUSION);
-        };
 
         freq_select.onchange = function() {
             form.set_freq(parseInt(this.value), 10);
@@ -941,7 +917,6 @@ recurrence.widget.RuleForm.prototype = {
 
         this.elements = {
             'root': root,
-            'mode_checkbox': mode_checkbox,
             'freq_select': freq_select,
             'interval_field': interval_field,
             'freq_form_container': freq_form_container,
