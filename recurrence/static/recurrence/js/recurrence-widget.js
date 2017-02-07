@@ -624,26 +624,19 @@ recurrence.widget.Panel.prototype = {
     init_dom: function() {
         var panel = this;
 
-        var label = recurrence.widget.e('a', {
+        var label = recurrence.widget.e('strong', {
            'class': 'recurrence-label',
-           'href': 'javascript:void(0)',
-           'onclick': function() {
-               if (panel.collapsed)
-                   panel.expand();
-               else
-                   panel.collapse();
-           }
         }, '&nbsp;');
-        var header = recurrence.widget.e(
+        var footer = recurrence.widget.e(
              'div', {'class': 'header'}, [label]);
         var body = recurrence.widget.e(
             'div', {'class': 'body'});
         var root = recurrence.widget.e(
-            'div', {'class': 'panel'}, [header, body]);
+            'div', {'class': 'panel'}, [body, footer]);
 
         this.elements = {
             'root': root, 'label': label,
-            'header': header, 'body': body
+            'header': footer, 'body': body
         };
 
         this.collapse();
