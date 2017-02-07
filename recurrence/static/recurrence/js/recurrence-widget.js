@@ -465,7 +465,8 @@ recurrence.widget.Widget.prototype = {
     init_dom: function() {
         var widget = this;
 
-        var panels = recurrence.widget.e('div', {'class': 'panels'});
+        var panels = recurrence.widget.e('div', {'class': 'panels'}),
+            root = recurrence.widget.e('div', {'class': this.textarea.className}, [panels]);
 
         this.elements = {
             'root': root,
