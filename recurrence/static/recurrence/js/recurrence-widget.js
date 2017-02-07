@@ -466,28 +466,10 @@ recurrence.widget.Widget.prototype = {
         var widget = this;
 
         var panels = recurrence.widget.e('div', {'class': 'panels'});
-        var control = recurrence.widget.e('div', {'class': 'control'});
-        var root = recurrence.widget.e(
-            'div', {'class': this.textarea.className}, [panels, control]);
-
-        var add_rule = new recurrence.widget.AddButton(
-            recurrence.display.labels.add_rule, {
-            'onclick': function () {widget.add_rule();}
-        });
-        recurrence.widget.add_class(add_rule.elements.root, 'add-rule');
-        control.appendChild(add_rule.elements.root);
-
-        var add_date = new recurrence.widget.AddButton(
-            recurrence.display.labels.add_date, {
-            'onclick': function () {widget.add_date();}
-        });
-        recurrence.widget.add_class(add_date.elements.root, 'add-date');
-        control.appendChild(add_date.elements.root);
 
         this.elements = {
             'root': root,
             'panels': panels,
-            'control': control
         };
 
         // attach immediately
@@ -615,8 +597,6 @@ recurrence.widget.Panel.prototype = {
         this.widget = widget;
         this.options = options || {};
 
-        if (this.options.onremove)
-            this.onremove = this.options.onremove;
         if (this.options.onexpand)
             this.onexpand = this.options.onexpand;
         if (this.options.oncollapse)
@@ -628,14 +608,6 @@ recurrence.widget.Panel.prototype = {
     init_dom: function() {
         var panel = this;
 
-        var remove = recurrence.widget.e('a', {
-            'class': 'remove',
-            'href': 'javascript:void(0)',
-            'title': recurrence.display.labels.remove,
-            'onclick': function() {
-                panel.remove();
-            }
-        }, '&times;');
         var label = recurrence.widget.e('a', {
            'class': 'recurrence-label',
            'href': 'javascript:void(0)',
@@ -654,7 +626,7 @@ recurrence.widget.Panel.prototype = {
             'div', {'class': 'panel'}, [header, body]);
 
         this.elements = {
-            'root': root, 'remove': remove, 'label': label,
+            'root': root, 'label': label,
             'header': header, 'body': body
         };
 
@@ -684,14 +656,6 @@ recurrence.widget.Panel.prototype = {
         if (this.oncollapse)
             this.oncollapse(this);
     },
-
-    remove: function() {
-        var parent = this.elements.root.parentNode;
-        if (parent)
-            parent.removeChild(this.elements.root);
-        if (this.onremove)
-            this.onremove(parent);
-    }
 };
 
 
