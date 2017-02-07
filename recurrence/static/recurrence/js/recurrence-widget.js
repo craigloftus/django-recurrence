@@ -1720,7 +1720,7 @@ recurrence.display.mode = {
 };
 
 recurrence.display.labels = {
-    'frequency': gettext('Frequency'),
+    'frequency': gettext('Repeat'),
     'on_the': gettext('On the'),
     'each': gettext('Each'),
     'every': gettext('Every'),
