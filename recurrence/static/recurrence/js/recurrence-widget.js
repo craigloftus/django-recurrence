@@ -493,6 +493,10 @@ recurrence.widget.Widget.prototype = {
     },
 
     init_panels: function() {
+        if(this.data.rrules.length === 0) {
+            this.add_rule();
+        }
+
         recurrence.array.foreach(
             this.data.rrules, function(item) {
                 this.add_rule_panel(recurrence.widget.INCLUSION, item);
@@ -631,7 +635,7 @@ recurrence.widget.Panel.prototype = {
            }
         }, '&nbsp;');
         var header = recurrence.widget.e(
-             'div', {'class': 'header'}, [remove, label]);
+             'div', {'class': 'header'}, [label]);
         var body = recurrence.widget.e(
             'div', {'class': 'body'});
         var root = recurrence.widget.e(
