@@ -617,7 +617,7 @@ recurrence.widget.Panel.prototype = {
            'class': 'recurrence-label',
         }, '&nbsp;');
         var footer = recurrence.widget.e(
-             'div', {'class': 'header'}, [label]);
+             'div', {'class': 'footer'}, [label]);
         var body = recurrence.widget.e(
             'div', {'class': 'body'});
         var root = recurrence.widget.e(
