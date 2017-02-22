@@ -29,17 +29,7 @@ class RecurrenceWidget(forms.Textarea):
             value = ''
         elif isinstance(value, recurrence.Recurrence):
             value = recurrence.serialize(value)
-
-        widget_init_js = (
-            '<script type="text/javascript">'
-            'recurrence.language_code =\'%s\';'
-            'new recurrence.widget.Widget(\'%s\', %s);'
-            '</script>'
-        ) % (get_language(), attrs['id'], json.dumps(self.js_widget_options))
-
-        return safestring.mark_safe(u'%s\n%s' % (
-            super(RecurrenceWidget, self).render(name, value, attrs),
-            widget_init_js))
+        return super(RecurrenceWidget, self).render(name, value, attrs)
 
     def get_media(self):
         js = [

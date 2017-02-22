@@ -452,6 +452,7 @@ recurrence.widget.Widget.prototype = {
             textarea = document.getElementById(textarea);
         this.selected_panel = null;
         this.panels = [];
+        this.forms = [];
         this.data = recurrence.deserialize(textarea.value);
         this.textarea = textarea;
         this.options = options;
@@ -463,20 +464,25 @@ recurrence.widget.Widget.prototype = {
     },
 
     init_dom: function() {
-        var widget = this;
+        var widget = this,
+            target = document.getElementById('task-schedule-recurrence');
 
         var panels = recurrence.widget.e('div', {'class': 'panels'}),
-            root = recurrence.widget.e('div', {'class': this.textarea.className}, [panels]);
+            root = recurrence.widget.e('div', {'class': 'recurrence-widget'}, [panels]);
 
         this.elements = {
             'root': root,
             'panels': panels,
         };
 
-        // attach immediately
+        // Hide textarea widget
         recurrence.widget.add_class(this.textarea, 'hidden');
-        this.textarea.parentNode.insertBefore(
-            this.elements.root, this.textarea);
+        // Clean out any existing stuff
+        while (target.lastChild) {
+            target.removeChild(target.lastChild);
+        }
+        // Add the recurrence widget
+        target.appendChild(this.elements.root);
     },
 
     init_panels: function() {
@@ -518,6 +524,7 @@ recurrence.widget.Widget.prototype = {
 
         this.elements.panels.appendChild(panel.elements.root);
         this.panels.push(panel);
+        this.forms.push(form);
         this.update();
         return panel;
     },
@@ -613,18 +620,16 @@ recurrence.widget.Panel.prototype = {
     init_dom: function() {
         var panel = this;
 
-        var label = recurrence.widget.e('strong', {
-           'class': 'recurrence-label',
-        }, '&nbsp;');
         var footer = recurrence.widget.e(
-             'div', {'class': 'footer'}, [label]);
+             'div', {'class': 'footer'});
         var body = recurrence.widget.e(
             'div', {'class': 'body'});
         var root = recurrence.widget.e(
             'div', {'class': 'panel'}, [body, footer]);
 
+        this.summary = document.getElementById('task-schedule-repeat-summary');
         this.elements = {
-            'root': root, 'label': label,
+            'root': root,
             'header': footer, 'body': body
         };
 
@@ -632,7 +637,7 @@ recurrence.widget.Panel.prototype = {
     },
 
     set_label: function(label) {
-        this.elements.label.innerHTML = label;
+        this.summary.innerHTML = label;
     },
 
     set_body: function(element) {
