@@ -779,20 +779,32 @@ recurrence.widget.RuleForm.prototype = {
         var until_count_container = recurrence.widget.e(
             'ul', {'class': 'until-count'},
             [until_container, count_container]);
-        var limit_checkbox = recurrence.widget.e(
+
+        var limit_indef_radio = recurrence.widget.e(
             'input', {
-                'class': 'checkbox', 'type': 'checkbox',
-                'name': 'limit'});
-        var limit_label = recurrence.widget.e(
+                'class': 'radio limit-switcher', 'type': 'radio',
+                'name': 'limit', 'value': 'indef'});
+        var limit_indef_radio_label = recurrence.widget.e(
+            'span', {'class': 'recurrence-label'},
+            recurrence.display.labels.repeat_indef);
+
+        var limit_until_radio = recurrence.widget.e(
+            'input', {
+                'class': 'radio limit-switcher', 'type': 'radio',
+                'name': 'limit', 'value': 'until'});
+        var limit_until_radio_label = recurrence.widget.e(
             'span', {'class': 'recurrence-label'},
             recurrence.display.labels.repeat_until + ':');
+
+
         var limit_container = recurrence.widget.e(
             'div', {'class': 'limit'},
-            [limit_checkbox, limit_label, until_count_container]);
+            [limit_indef_radio, limit_indef_radio_label, limit_until_radio, limit_until_radio_label, until_count_container]);
         if (this.rule.until || this.rule.count) {
             // compatibility with ie, we delay
-            setTimeout(function() {limit_checkbox.checked = true;}, 10);
+            setTimeout(function() {limit_until_radio.checked = true;}, 10);
         } else {
+            setTimeout(function() {limit_indef_radio.checked = true;}, 10);
             until_radio.disabled = true;
             count_radio.disabled = true;
             until_date_selector.disable();
@@ -818,34 +830,33 @@ recurrence.widget.RuleForm.prototype = {
             form.set_interval(parseInt(this.value), 10);
         };
 
-        limit_checkbox.onclick = function () {
-            if (this.checked) {
-                recurrence.widget.remove_class(
-                    until_count_container, 'disabled');
-                until_radio.disabled = false;
-                count_radio.disabled = false;
-                if (until_radio.checked) {
-                    until_date_selector.enable();
-                    form.set_until(until_date_selector.date);
-                }
-                if (count_radio.checked) {
-                    count_field.disabled = false;
-                    form.set_count(parseInt(count_field.value));
-                }
-            } else {
-                recurrence.widget.add_class(
-                    until_count_container, 'disabled');
-                until_radio.disabled = true;
-                count_radio.disabled = true;
-                until_date_selector.disable();
-                count_field.disabled = true;
-                recurrence.array.foreach(
-                    form.freq_rules, function(rule) {
-                        rule.until = null;
-                        rule.count = null;
-                    });
-                form.update();
+        limit_until_radio.onclick = function () {
+            recurrence.widget.remove_class(
+                until_count_container, 'disabled');
+            until_radio.disabled = false;
+            count_radio.disabled = false;
+            if (until_radio.checked) {
+                until_date_selector.enable();
+                form.set_until(until_date_selector.date);
             }
+            if (count_radio.checked) {
+                count_field.disabled = false;
+                form.set_count(parseInt(count_field.value));
+            }
+        }
+
+        limit_indef_radio.onclick = function () {
+            recurrence.widget.add_class(until_count_container, 'disabled');
+            until_radio.disabled = true;
+            count_radio.disabled = true;
+            until_date_selector.disable();
+            count_field.disabled = true;
+            recurrence.array.foreach(
+                form.freq_rules, function(rule) {
+                    rule.until = null;
+                    rule.count = null;
+                });
+            form.update();
         }
 
         // for compatibility with ie, use timeout
@@ -910,7 +921,8 @@ recurrence.widget.RuleForm.prototype = {
             'until_radio': until_radio,
             'count_field': count_field,
             'count_radio': count_radio,
-            'limit_checkbox': limit_checkbox
+            'limit_until_radio': limit_until_radio,
+            'limit_indef_radio': limit_indef_radio,
         };
     },
 
@@ -1715,6 +1727,7 @@ recurrence.display.labels = {
     'date': gettext('Date'),
     'time': gettext('Time'),
     'repeat_until': gettext('Repeat until'),
+    'repeat_indef': gettext('Repeat forever'),
     'exclude_occurrences': gettext('Exclude these occurences'),
     'exclude_date': gettext('Exclude this date'),
     'add_rule': gettext('Add rule'),
