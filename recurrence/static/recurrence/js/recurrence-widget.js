@@ -808,7 +808,7 @@ recurrence.widget.RuleForm.prototype = {
             until_radio.disabled = true;
             count_radio.disabled = true;
             until_date_selector.disable();
-            recurrence.widget.add_class(until_count_container, 'disabled');
+            recurrence.widget.add_class(until_count_container, 'hidden');
         }
 
         // core
@@ -832,7 +832,7 @@ recurrence.widget.RuleForm.prototype = {
 
         limit_until_radio.onclick = function () {
             recurrence.widget.remove_class(
-                until_count_container, 'disabled');
+                until_count_container, 'hidden');
             until_radio.disabled = false;
             count_radio.disabled = false;
             if (until_radio.checked) {
@@ -846,7 +846,7 @@ recurrence.widget.RuleForm.prototype = {
         }
 
         limit_indef_radio.onclick = function () {
-            recurrence.widget.add_class(until_count_container, 'disabled');
+            recurrence.widget.add_class(until_count_container, 'hidden');
             until_radio.disabled = true;
             count_radio.disabled = true;
             until_date_selector.disable();
